@@ -3,6 +3,7 @@ migrations/
 
 *.env
 
+*.csv
 *.ods
 *.sqlite3
 
