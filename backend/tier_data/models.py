@@ -57,3 +57,67 @@ class PlanningApplications(models.Model):
     def __str__(self):
         return (f"[Planning Applications at"
                 f"{self.local_planning_authority_name}, {self.quarter}]")
+
+
+class FinanceInvestment(models.Model):
+    local_government_finance_code = models.CharField(max_length=20)
+    local_authority_name = models.CharField(max_length=128)
+    bank_deposits_thousands = models.FloatField(blank=True)
+    building_societies_deposits_thousands = models.FloatField(blank=True)
+    treasury_bills_thousands = models.FloatField(blank=True)
+    banks_cert_of_deposit_thousands = models.FloatField(blank=True)
+    building_societies_cert_of_deposit_thousands = models.FloatField(blank=True)
+    british_government_securities_thousands = models.FloatField(blank=True)
+    other_financial_intermediaries_thousands = models.FloatField(blank=True)
+    public_corporations_thousands = models.FloatField(blank=True)
+    debt_management_account_deposit_facility_thousands = models.FloatField(blank=True)
+    money_market_funds_thousands = models.FloatField(blank=True)
+    externally_managed_funds_thousands = models.FloatField(blank=True)
+    other_investments_thousands = models.FloatField(blank=True)
+    loans_local_government_thousands = models.FloatField(blank=True)
+    country = models.CharField(max_length=100)
+    class_of_authority = models.CharField(max_length=100)
+    ons_code = models.CharField(max_length=50)
+    sheet_name = models.CharField(max_length=100)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return (f"[Finance Investment at"
+                f"{self.local_authority_name}, {self.bank_deposits_thousands}]")
+
+
+class FinanceBorrowing(models.Model):
+    local_government_finance_code = models.CharField(max_length=20)
+    local_authority_name = models.CharField(max_length=128)
+    loans_short_term_banks_in_uk_thousands = models.FloatField(blank=True)
+    loans_short_term_building_societies_thousands = models.FloatField(blank=True)
+    loans_short_term_other_financial_intermediaries_thousands = models.FloatField(blank=True)
+    loans_short_term_public_corporations_thousands = models.FloatField(blank=True)
+    loans_short_term_private_nonfinancial_corporations_thousands = models.FloatField(blank=True)
+    loans_short_term_central_government_thousands = models.FloatField(blank=True)
+    loans_short_term_households_sector_thousands = models.FloatField(blank=True)
+    loans_short_term_other_sources_thousands = models.FloatField(blank=True)
+    securities_negotiable_bonds_commercial_thousands = models.FloatField(blank=True)
+    securities_other_stock_issues_thousands = models.FloatField(blank=True)
+    loans_longerterm_pwlb_thousands = models.FloatField(blank=True)
+    loans_longerterm_banks_in_uk_thousands = models.FloatField(blank=True)
+    loans_longerterm_building_societies_thousands = models.FloatField(blank=True)
+    loans_longerterm_other_financial_intermediaries_thousands = models.FloatField(blank=True)
+    loans_longerterm_public_corporations_thousands = models.FloatField(blank=True)
+    loans_longerterm_private_nonfinancial_corporations_thousands = models.FloatField(blank=True)
+    loans_longerterm_central_government_thousands = models.FloatField(blank=True)
+    loans_longerterm_households_sector_thousands = models.FloatField(blank=True)
+    loans_longerterm_other_sources_thousands = models.FloatField(blank=True)
+    short_term_loans_local_authorities_thousands = models.FloatField(blank=True)
+    longer_term_loans_local_authorities_thousands = models.FloatField(blank=True)
+    country = models.CharField(max_length=100)
+    class_of_authority = models.CharField(max_length=100)
+    ons_code = models.CharField(max_length=50)
+    sheet_name = models.CharField(max_length=100)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return (f"[Finance Borrowing at"
+                f"{self.local_authority_name}, {self.class_of_authority}]")
