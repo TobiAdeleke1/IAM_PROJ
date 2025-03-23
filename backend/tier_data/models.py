@@ -121,3 +121,28 @@ class FinanceBorrowing(models.Model):
     def __str__(self):
         return (f"[Finance Borrowing at"
                 f"{self.local_authority_name}, {self.class_of_authority}]")
+
+
+class QuarterlyRevenue(models.Model):
+    e_code = models.CharField(max_length=50)
+    ons_code = models.CharField(max_length=50)
+    local_authority = models.CharField(max_length=128)
+    region = models.CharField(max_length=128)
+    class_of_authority = models.CharField(max_length=128)
+    public_order_and_safety_total = models.FloatField(blank=True)
+    economic_affairs_total = models.FloatField(blank=True)
+    housing_and_community_amenities_total = models.FloatField(blank=True)
+    health_total = models.FloatField(blank=True)
+    education_total = models.FloatField(blank=True)
+    social_protection_total = models.FloatField(blank=True)
+    net_current_expenditure_including_education_non_pay_element = models.FloatField(blank=True)
+    total_service_expenditure_including_education_non_pay_element = models.FloatField(blank=True)
+    housing_revenue_account_income_total = models.FloatField(blank=True)
+    housing_revenue_account_expenditure_total = models.FloatField(blank=True)
+    sheet_name = models.CharField(max_length=100)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return (f"[Quarterly Revenue at"
+                f"{self.local_authority}, {self.region}]")
