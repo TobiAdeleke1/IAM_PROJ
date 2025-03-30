@@ -35,7 +35,7 @@ def data_request(os_openname_helper: PlanningApplicationStatsUtil):
         planning_application_df = pd.read_csv(data_link,
                                               encoding='latin1',
                                               skiprows=2,
-                                              nrows=20)
+                                              )
 
         file_name = str(data_link).split('/')[-1]
 

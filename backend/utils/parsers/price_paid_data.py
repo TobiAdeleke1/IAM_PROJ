@@ -17,9 +17,7 @@ class PaidPriceUtil:
         self.name = 'PRICE_PAID'
         self.uncleaned_csv = []
         self.clean_csv = []
-
         self.column_list = [
-
             'transaction_unique_identifier', 'price',
             'date_of_transfer', 'postcode', 'property_type',
             'age', 'tenure', 'paon', 'saon', 'street', 'locality',
