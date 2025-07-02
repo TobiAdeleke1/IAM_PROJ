@@ -1,3 +1,5 @@
+import { useAuth0 } from "@auth0/auth0-react";
+
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import Divider from '@mui/material/Divider';
@@ -5,6 +7,8 @@ import MuiDrawer, { drawerClasses } from '@mui/material/Drawer';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import MenuContent from './MenuContent';
+import LogoutButton from './LogOutButton';
+import LogInButton from './LogInButton';
 
 
 const drawerWidth = 240;
@@ -22,6 +26,7 @@ const Drawer = styled(MuiDrawer)({
 });
 
 export default function SideMenu(){
+    const { isAuthenticated }  = useAuth0();
     return (
         <Drawer
             variant='permanent'
@@ -68,6 +73,16 @@ export default function SideMenu(){
             }}
         
         >
+
+        {!isAuthenticated && (
+            <>
+                <LogInButton />
+            </>)}
+        
+         {isAuthenticated && (
+            <>
+                <LogoutButton />
+            </>)}
 
         </Stack>
 
