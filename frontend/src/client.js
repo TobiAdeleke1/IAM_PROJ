@@ -13,7 +13,7 @@ export const getPostcodeLookup = async (postcode) =>{
 
 }
 
-export const getPricePaidData = async ( getAccessTokenSilently) => {
+export const getPricePaidData = async ( getAccessTokenSilently ) => {
 
     const token = await getAccessTokenSilently();
  
@@ -32,13 +32,13 @@ export const getPricePaidData = async ( getAccessTokenSilently) => {
     return response.json();
 };
 
-export const getPlanningApplicationData = async( getAccessTokenSilently) =>{
+export const getPlanningApplicationData = async( getAccessTokenSilently ) =>{
     const token = await getAccessTokenSilently();
     const response = await fetch(`${API_BASE_URL}/tier_api/planningapplication`, {
         method: 'GET',
         headers: {
             Authorization: `Bearer ${token}`,
-            'Content-type': 'application/json',
+            'Content-Type': 'application/json',
         },
     });
 
@@ -47,5 +47,22 @@ export const getPlanningApplicationData = async( getAccessTokenSilently) =>{
         throw new Error(`${response.message} with error ${response.status}`);
     }
     return response.json();
-
 };
+
+export const getFinanceBorrowingData = async ( getAccessTokenSilently ) =>{
+    const token = await getAccessTokenSilently();
+    const response = await fetch(`${API_BASE_URL}/tier_api/financeborrowing`,{
+        method: 'GET',
+        headers: {
+            Authorization: `Bearer ${token}`,
+           'Content-Type': 'application/json',
+        },
+    });
+
+    if(!response.ok){
+        throw new Error(`${response.message} with error ${response.status}`);
+    };
+
+    return response.json();
+};
+
