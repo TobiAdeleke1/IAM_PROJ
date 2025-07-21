@@ -13,7 +13,9 @@ from .serializers import (
     QuarterlyRevenueSerializer
 )
 from rest_framework import viewsets, mixins
+from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 from tier_auth.permissions import HasScope
 
 
@@ -42,6 +44,16 @@ class FinanceBorrowingViewSet(viewsets.GenericViewSet,
     queryset = FinanceBorrowing.objects.all()
     serializer_class = FinanceBorrowingSerializer
     permission_classes = [IsAuthenticated]
+
+    @action(detail=False, methods=['get'], url_path='ons_code_lookup')
+    def ons_code_lookup(self, request):
+        request_ons_code = request.query_params.get('ons_code')
+        if not request_ons_code:
+            return Response({'error': 'ons_code is missing'}, status=400)
+        queryset = self.get_queryset().filter(ons_code=request_ons_code)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 
 
 class FinanceInvestmentViewSet(viewsets.GenericViewSet,
