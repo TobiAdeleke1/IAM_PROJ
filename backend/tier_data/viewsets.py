@@ -28,6 +28,15 @@ class PricePaidViewSet(viewsets.GenericViewSet,
 
     HasScope.required_scopes = ['read:pricepaid']
 
+    @action(detail=False, methods=['get'], url_path='search')
+    def postcode_lookup(self, request):
+        request_postcode = request.query_params.get('postcode')
+        if not request_postcode:
+            return Response({'error': 'Postcode is missing'}, status=400)
+        queryset = self.get_queryset().filter(postcode=request_postcode.upper())
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 
 class PlanningApplicationsViewSet(viewsets.GenericViewSet,
                                   mixins.ListModelMixin,
@@ -45,7 +54,6 @@ class PlanningApplicationsViewSet(viewsets.GenericViewSet,
 
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
-
 
 class FinanceBorrowingViewSet(viewsets.GenericViewSet,
                               mixins.ListModelMixin,
@@ -65,7 +73,6 @@ class FinanceBorrowingViewSet(viewsets.GenericViewSet,
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
-
 class FinanceInvestmentViewSet(viewsets.GenericViewSet,
                                mixins.ListModelMixin,
                                mixins.RetrieveModelMixin):
@@ -83,9 +90,9 @@ class FinanceInvestmentViewSet(viewsets.GenericViewSet,
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
-
 class QuarterlyRevenueViewSet(viewsets.GenericViewSet,
                               mixins.ListModelMixin,
                               mixins.RetrieveModelMixin):
     queryset = QuarterlyRevenue.objects.all()
     serializer_class = QuarterlyRevenueSerializer
+
