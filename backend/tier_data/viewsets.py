@@ -45,7 +45,7 @@ class FinanceBorrowingViewSet(viewsets.GenericViewSet,
     serializer_class = FinanceBorrowingSerializer
     permission_classes = [IsAuthenticated]
 
-    @action(detail=False, methods=['get'], url_path='ons_code_lookup')
+    @action(detail=False, methods=['get'], url_path='search')
     def ons_code_lookup(self, request):
         request_ons_code = request.query_params.get('ons_code')
         if not request_ons_code:
@@ -63,7 +63,7 @@ class FinanceInvestmentViewSet(viewsets.GenericViewSet,
     serializer_class = FinanceInvestmentSerializer
     permission_classes = [IsAuthenticated]
 
-    @action(detail=False, methods=['get'], url_path='ons_code_lookup')
+    @action(detail=False, methods=['get'], url_path='search')
     def ons_code_lookup(self, request):
         request_ons_code = request.query_params.get('ons_code')
         if not request_ons_code:
