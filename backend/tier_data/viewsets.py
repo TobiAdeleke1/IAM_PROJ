@@ -63,6 +63,16 @@ class FinanceInvestmentViewSet(viewsets.GenericViewSet,
     serializer_class = FinanceInvestmentSerializer
     permission_classes = [IsAuthenticated]
 
+    @action(detail=False, methods=['get'], url_path='ons_code_lookup')
+    def ons_code_lookup(self, request):
+        request_ons_code = request.query_params.get('ons_code')
+        if not request_ons_code:
+            return Response({'error': 'ons_code is missing'}, status=400)
+        queryset = self.get_queryset().filter(ons_code=request_ons_code)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
 
 class QuarterlyRevenueViewSet(viewsets.GenericViewSet,
                               mixins.ListModelMixin,
