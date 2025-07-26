@@ -19,7 +19,7 @@ SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
 DEBUG = bool(os.environ.get("DEBUG", default=0))
 
 # ALLOWED_HOSTS = []
-ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "127.0.0.1").split(",")
+ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
 
 
 # Application definition
@@ -107,6 +107,9 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 REST_FRAMEWORK = {
+   "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
+    "PAGE_SIZE": 50,
+   
    "DEFAULT_PERMISSION_CLASSES": (
        "rest_framework.permissions.IsAuthenticated",
     ),
@@ -114,6 +117,10 @@ REST_FRAMEWORK = {
        "tier_auth.auth_backend.Auth0JWTAuthentication",
     ),
 }
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+]
 
 DOMAIN = os.getenv("DOMAIN", "")
 
