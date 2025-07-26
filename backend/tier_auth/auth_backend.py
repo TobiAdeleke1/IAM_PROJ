@@ -23,6 +23,7 @@ class Auth0JWTAuthentication(BaseAuthentication):
         try:
             # Fetch public keys from Auth0
             jwks_url = f"https://{AUTH0_DOMAIN}/.well-known/jwks.json"
+
             jwks = requests.get(jwks_url).json()
             unverified_header = jwt.get_unverified_header(token)
 
@@ -44,14 +45,14 @@ class Auth0JWTAuthentication(BaseAuthentication):
 
             # Sync with custom user model
             auth0_id = payload["sub"]
-            email = payload.get("email", auth0_id)
+            email = payload.get("email", f"{auth0_id}@generic.com")
             user = User.objects.filter(auth0_id=auth0_id).first()
             if not user:
-                user = User.objects.create(
+                user = User.objects.get_or_create(
                       auth0_id=auth0_id,
-                      # TODO : Update
-                      stripe_customer_id=f"{str(uuid.uuid4())}_random",
-                      defaults={"email": email, "username": email[:150]}
+                      stripe_customer_id=f"{str(uuid.uuid4())}_random", # TODO : Update
+                      username= email[:150] ,
+                      email= email,
                 )
 
             # token claims
