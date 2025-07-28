@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { BrowserRouter, Routes, Route } from "react-router"
+import { BrowserRouter, Routes, Route } from 'react-router';
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import SideMenu from './components/SideMenu';
-import Stack from '@mui/material/Stack';
-import MainGrid from './components/MainGrid';
+import MainGrid from './pages/MainGrid';
+import ResultDropDown from './pages/ResultDropDown';
 import AppTheme from './theme/AppTheme';
 
 export default function App(props) {
@@ -28,8 +28,11 @@ export default function App(props) {
         >
          
          <Routes>
+          
+          <Route path="/" element={<MainGrid />} />
           <Route path="/home" element={<MainGrid />} />
-           <Route path="/" element={<MainGrid />} />
+    
+          <Route path="/results/:query" element={<ResultDropDown />} />
          </Routes>
  
       
