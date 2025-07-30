@@ -2,8 +2,6 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
 
 
 export const getPostcodeLookup = async ( postcode ) =>{
-    // const queryParams = new URLSearchParams();
-    // queryParams.append("postcode", postcode || "sw1w 9su" );
     const response = await fetch(`https://api.postcodes.io/postcodes/${postcode}`)
     
     if(!response.ok){
@@ -13,11 +11,13 @@ export const getPostcodeLookup = async ( postcode ) =>{
 
 }
 
-export const getPricePaidData = async ( getAccessTokenSilently ) => {
+export const getPricePaidData = async (query, getAccessTokenSilently ) => {
 
     const token = await getAccessTokenSilently();
+    const queryParams = new URLSearchParams();
+    queryParams.append("postcode", query);
  
-    const response = await fetch(`${API_BASE_URL}/tier_api/pricepaid`,{
+    const response = await fetch(`${API_BASE_URL}/tier_api/pricepaid/search/?${queryParams.toString()}`,{
         method: 'GET',
         headers:{
             Authorization: `Bearer ${token}`,
@@ -32,9 +32,13 @@ export const getPricePaidData = async ( getAccessTokenSilently ) => {
     return response.json();
 };
 
-export const getPlanningApplicationData = async( getAccessTokenSilently ) =>{
+
+export const getPlanningApplicationData = async( query, getAccessTokenSilently ) =>{
+
     const token = await getAccessTokenSilently();
-    const response = await fetch(`${API_BASE_URL}/tier_api/planningapplication`, {
+    const queryParams = new URLSearchParams();
+    queryParams.append("authority_name", query);
+    const response = await fetch(`${API_BASE_URL}/tier_api/planningapplication/search/?${queryParams.toString()}`, {
         method: 'GET',
         headers: {
             Authorization: `Bearer ${token}`,
@@ -49,9 +53,11 @@ export const getPlanningApplicationData = async( getAccessTokenSilently ) =>{
     return response.json();
 };
 
-export const getFinanceBorrowingData = async ( getAccessTokenSilently ) =>{
+export const getFinanceBorrowingData = async (query, getAccessTokenSilently ) =>{
     const token = await getAccessTokenSilently();
-    const response = await fetch(`${API_BASE_URL}/tier_api/financeborrowing`,{
+    const queryParams = new URLSearchParams();
+    queryParams.append("local_authority_name", query);
+    const response = await fetch(`${API_BASE_URL}/tier_api/financeborrowing/search/?${queryParams.toString()}`,{
         method: 'GET',
         headers: {
             Authorization: `Bearer ${token}`,
@@ -66,9 +72,11 @@ export const getFinanceBorrowingData = async ( getAccessTokenSilently ) =>{
     return response.json();
 };
 
-export const getFinanceInvestmentData = async ( getAccessTokenSilently ) =>{
+export const getFinanceInvestmentData = async (query, getAccessTokenSilently ) =>{
     const token = await getAccessTokenSilently();
-    const response = await fetch(`${API_BASE_URL}/tier_api/financeinvestment`,{
+    const queryParams = new URLSearchParams();
+    queryParams.append("local_authority_name", query);
+    const response = await fetch(`${API_BASE_URL}/tier_api/financeinvestment/search/?${queryParams.toString()}`,{
         method: 'GET',
         headers: {
             Authorization: `Bearer ${token}`,
@@ -83,9 +91,11 @@ export const getFinanceInvestmentData = async ( getAccessTokenSilently ) =>{
     return response.json();
 };
 
-export const getQuarterlyRevenueData = async ( getAccessTokenSilently ) =>{
+export const getQuarterlyRevenueData = async (query,  getAccessTokenSilently ) =>{
     const token = await getAccessTokenSilently();
-    const response = await fetch(`${API_BASE_URL}/tier_api/quarterlyrevenue`,{
+    const queryParams = new URLSearchParams();
+    queryParams.append("local_authority_name", query);
+    const response = await fetch(`${API_BASE_URL}/tier_api/quarterlyrevenue/search/?${queryParams.toString()}`,{
         method: 'GET',
         headers: {
             Authorization: `Bearer ${token}`,
