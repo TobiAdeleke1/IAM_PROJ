@@ -118,9 +118,15 @@ class QuarterlyRevenueViewSet(viewsets.GenericViewSet,
     @action(detail=False, methods=['get'], url_path='search')
     def ons_code_lookup(self, request):
         request_ons_code = request.query_params.get('ons_code')
-        if not request_ons_code:
-            return Response({'error': 'ons_code is missing'}, status=400)
-        queryset = self.get_queryset().filter(ons_code=request_ons_code)
+        request_local_authority_name = request.query_params.get('local_authority_name')
+        
+        if not request_ons_code and not request_local_authority_name :
+            return Response({'error': 'ons_code and local authority name is missing'}, status=400)
+        
+        if request_ons_code:
+            queryset = self.get_queryset().filter(ons_code=request_ons_code)
+        else:
+            queryset = self.get_queryset().filter(local_authority=request_local_authority_name)
 
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
