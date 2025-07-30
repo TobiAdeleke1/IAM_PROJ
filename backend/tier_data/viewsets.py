@@ -48,9 +48,15 @@ class PlanningApplicationsViewSet(viewsets.GenericViewSet,
     @action(detail=False, methods=['get'], url_path='search')
     def authority_code_lookup(self, request):
         request_local_authority_code = request.query_params.get('authority_code')
-        if not request_local_authority_code:
-            return Response({'error': 'Authority code is missing'}, status=400)
-        queryset = self.get_queryset().filter(local_planning_authority_code=request_local_authority_code)
+        request_local_authority_name = request.query_params.get('authority_name')
+        
+        if not request_local_authority_code and not request_local_authority_name:
+            return Response({'error': 'Authority code and Authority name is missing'}, status=400)
+        
+        if request_local_authority_code:
+            queryset = self.get_queryset().filter(local_planning_authority_code=request_local_authority_code)  
+        else:
+            queryset = self.get_queryset().filter(local_planning_authority_name=request_local_authority_name)
 
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
