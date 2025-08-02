@@ -7,18 +7,11 @@ import ListItemText from '@mui/material/ListItemText';
 import Stack from '@mui/material/Stack';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import AnalyticsRoundedIcon from '@mui/icons-material/AnalyticsRounded';
-import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
-import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
-
+import { NavLink } from 'react-router';
 
 const mainListItems = [
-    { text: 'Home', icon: <HomeRoundedIcon />},
-    { text: 'Analytics', icon: <AnalyticsRoundedIcon /> },
-];
-
-const secondaryListItems = [ 
-  { text: 'Settings', icon: <SettingsRoundedIcon /> },
-  { text: 'About', icon: <InfoRoundedIcon /> },
+    { text: 'Home', icon: <HomeRoundedIcon />, route:'/home'},
+    { text: 'Analytics', icon: <AnalyticsRoundedIcon />, route:'/analytics' },
 ];
 
 export default function MenuContent(){
@@ -27,20 +20,11 @@ export default function MenuContent(){
             <List dense>
             {mainListItems.map((item, index) => (
                 <ListItem key={index} disablePadding sx={{ display: 'block'}} >
-                    <ListItemButton selected={index === 0}>
-                        <ListItemIcon>{item.icon}</ListItemIcon>
-                        <ListItemText primary={item.text} />
-                    </ListItemButton>
-                </ListItem>
-
-            ))}
-
-            </List>
-
-            <List dense>
-            {secondaryListItems.map((item, index) => (
-                  <ListItem key={index} disablePadding sx={{ display: 'block'}} >
-                    <ListItemButton >
+                    <ListItemButton 
+                     selected={index === 0}
+                     component={NavLink}
+                     to={item.route}
+                     >
                         <ListItemIcon>{item.icon}</ListItemIcon>
                         <ListItemText primary={item.text} />
                     </ListItemButton>
