@@ -80,7 +80,7 @@ class FinanceBorrowingViewSet(viewsets.GenericViewSet,
         if request_ons_code:
             queryset = self.get_queryset().filter(ons_code=request_ons_code)
         else:
-            queryset = self.get_queryset().filter(local_authority_name=request_local_authority_name)
+            queryset = self.get_queryset().filter(local_government_finance_code=request_local_authority_name)
 
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
@@ -103,7 +103,7 @@ class FinanceInvestmentViewSet(viewsets.GenericViewSet,
         if request_ons_code:
             queryset = self.get_queryset().filter(ons_code=request_ons_code)
         else:
-            queryset = self.get_queryset().filter(local_authority_name=request_local_authority_name)
+            queryset = self.get_queryset().filter(local_government_finance_code=request_local_authority_name)
 
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
