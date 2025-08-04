@@ -80,3 +80,29 @@ export const fetchAllData = async(postcodeName, localAuthorityName, getAccessTok
         quarterlyrevenue
     };
 };
+
+export const pricePaidAnalytics = async (postcodeData) =>{
+  const postcodeCount = postcodeData.length;
+  const postcodeAvg = postcodeData
+                       .map(({price}) => parseInt(price))
+                       .reduce((currSum, currValue) => currSum+= currValue, 0)/postcodeCount;  
+  const maxDate = postcodeData
+                  .map(({date_of_transfer}) =>  Date.parse(date_of_transfer))
+                  .reduce((maxD, currDate) => Math.max(maxD, currDate), 0);
+  const minDate = postcodeData
+                  .map(({date_of_transfer}) =>  Date.parse(date_of_transfer))
+                  .reduce((minD, currDate) => Math.min(minD, currDate), 0);
+
+
+
+  return {
+    pricePaidCount: postcodeCount,
+    average: postcodeAvg,
+    maxDate: Date.parse(maxDate).toLocaleString(),
+    minDate: Date.parse(minDate).toLocaleString(),
+  
+  }
+  
+
+
+}
