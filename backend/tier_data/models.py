@@ -60,7 +60,7 @@ class PlanningApplications(models.Model):
 
 
 class FinanceInvestment(models.Model):
-    local_government_finance_code = models.CharField(max_length=20)
+    local_government_finance_code = models.CharField(max_length=128)
     local_authority_name = models.CharField(max_length=128)
     bank_deposits_thousands = models.FloatField(blank=True)
     building_societies_deposits_thousands = models.FloatField(blank=True)
@@ -75,10 +75,10 @@ class FinanceInvestment(models.Model):
     externally_managed_funds_thousands = models.FloatField(blank=True)
     other_investments_thousands = models.FloatField(blank=True)
     loans_local_government_thousands = models.FloatField(blank=True)
-    country = models.CharField(max_length=100)
-    class_of_authority = models.CharField(max_length=100)
-    ons_code = models.CharField(max_length=50)
-    sheet_name = models.CharField(max_length=100)
+    country = models.CharField(max_length=128)
+    class_of_authority = models.CharField(max_length=128)
+    ons_code = models.CharField(max_length=128)
+    sheet_name = models.CharField(max_length=128)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -88,7 +88,7 @@ class FinanceInvestment(models.Model):
 
 
 class FinanceBorrowing(models.Model):
-    local_government_finance_code = models.CharField(max_length=20)
+    local_government_finance_code = models.CharField(max_length=128)
     local_authority_name = models.CharField(max_length=128)
     loans_short_term_banks_in_uk_thousands = models.FloatField(blank=True)
     loans_short_term_building_societies_thousands = models.FloatField(blank=True)
@@ -111,10 +111,10 @@ class FinanceBorrowing(models.Model):
     loans_longerterm_other_sources_thousands = models.FloatField(blank=True)
     short_term_loans_local_authorities_thousands = models.FloatField(blank=True)
     longer_term_loans_local_authorities_thousands = models.FloatField(blank=True)
-    country = models.CharField(max_length=100)
-    class_of_authority = models.CharField(max_length=100)
-    ons_code = models.CharField(max_length=50)
-    sheet_name = models.CharField(max_length=100)
+    country = models.CharField(max_length=128)
+    class_of_authority = models.CharField(max_length=128)
+    ons_code = models.CharField(max_length=128)
+    sheet_name = models.CharField(max_length=128)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
