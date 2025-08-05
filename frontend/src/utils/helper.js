@@ -103,6 +103,37 @@ export const pricePaidAnalytics = async (postcodeData) =>{
   
   }
   
-
-
 }
+
+export const planningapplicationAnalytics = async (planningapplicationData) =>{
+  
+   const result = {};
+   for(let item of planningapplicationData){
+      let year = item.quarter.substring(0, 4);
+      
+      if(!result[year]){
+        result[year] = {
+          total_decision: 0,
+          total_granted: 0,
+          total_refused: 0 
+        }
+      }
+      result[year].total_decision += item.total_decisions_grand_total_all;
+      result[year].total_granted += item.total_granted_grand_total_all;
+      result[year].total_refused += item.total_refused_grand_total_all;
+
+   };
+   const resultYear = Object.keys(result);
+   const resultTotalDecision = resultYear.map((year) => result[year].total_decision);
+   const resultTotalGranted = resultYear.map((year) => result[year].total_granted);
+   const resultTotalRefused = resultYear.map((year) => result[year].total_refused);
+   
+
+   return {
+    years: resultYear,
+    total: resultTotalDecision,
+    granted: resultTotalGranted,
+    refused: resultTotalRefused,
+
+   }
+};
