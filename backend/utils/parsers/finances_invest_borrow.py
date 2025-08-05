@@ -17,7 +17,8 @@ class FinancesUtil:
         self.sheetnames = [{'LA_Investments': []}, {'LA_Borrowing': []}]
         self.sheet_columns = {
             'LA_Investments': [
-                'num', 'lgf_code', 'local_authority_name', 'deposits:_banks',
+                'num', 
+                'lgf_code', 'local_authority_name', 'deposits:_banks',
                 'deposits:_building_societies', 'treasury_bills',
                 'certificates_of_deposit:_banks',
                 'certificates_of_deposit:_building_societies',
@@ -30,7 +31,8 @@ class FinancesUtil:
                 ],
 
             'LA_Borrowing': [
-                'num', 'lgf_code', 'local_authority_name',
+                'num', 
+                'lgf_code', 'local_authority_name',
                 'loans_short_term_banks_in_uk',
                 'loans_short_term_building_societies',
                 'loans_short_term_other_financial_intermediaries',
@@ -133,14 +135,16 @@ def update_invalid(val):
         val = float(val)
         return val
     except Exception as err:
+        
         print(err)
         return 0.0
 
 
 def parse_row_invest(row, data_list):
+    print("Invest row", row)
     finance_investment = FinanceInvestment(
-        local_government_finance_code=update_invalid(row['lgf_code']),
-        local_authority_name=update_invalid(row['local_authority_name']),
+        local_government_finance_code=row['lgf_code'],
+        local_authority_name=row['local_authority_name'],
         bank_deposits_thousands=update_invalid(row['deposits:_banks']),
         building_societies_deposits_thousands=update_invalid(row[
             'deposits:_building_societies'
@@ -164,20 +168,20 @@ def parse_row_invest(row, data_list):
         externally_managed_funds_thousands=update_invalid(row['externally_managed_funds']),
         other_investments_thousands=update_invalid(row['other_investments']),
         loans_local_government_thousands=update_invalid(row['loans_local_government']),
-        country=update_invalid(row['country']),
-        class_of_authority=update_invalid(row['class_of_authority']),
-        ons_code=update_invalid(row['ons_code']),
-        sheet_name=update_invalid(row['sheet_name']),
+        country=row['country'],
+        class_of_authority=row['class_of_authority'],
+        ons_code=row['ons_code'],
+        sheet_name=row['sheet_name'],
     )
 
     data_list.append(finance_investment)
 
 
 def parse_row_borrow(row, data_list):
-
+    print("Borrow row", row)
     finance_borrowing = FinanceBorrowing(
-        local_government_finance_code=update_invalid(row['lgf_code']),
-        local_authority_name=update_invalid(row['local_authority_name']),
+        local_government_finance_code=row['lgf_code'],
+        local_authority_name=row['local_authority_name'],
         loans_short_term_banks_in_uk_thousands=update_invalid(row[
             'loans_short_term_banks_in_uk'
         ]),
@@ -241,10 +245,10 @@ def parse_row_borrow(row, data_list):
         longer_term_loans_local_authorities_thousands=update_invalid(row[
             'longer_term_loans_local_authorities'
         ]),
-        country=update_invalid(row['country']),
-        class_of_authority=update_invalid(row['class_of_authority']),
-        ons_code=update_invalid(row['ons_code']),
-        sheet_name=update_invalid(row['sheet_name']),
+        country=row['country'],
+        class_of_authority=row['class_of_authority'],
+        ons_code=row['ons_code'],
+        sheet_name=row['sheet_name'],
     )
 
     data_list.append(finance_borrowing)
@@ -252,16 +256,10 @@ def parse_row_borrow(row, data_list):
 
 def clean_files(gov_finance_helper: FinancesUtil):
     unclean_CSVs = gov_finance_helper.uncleaned_csv
-
-    for type, unclean_csv in unclean_CSVs:
-        unclean_df_chunk = pd.read_csv(unclean_csv,  chunksize=5000)
-
-        if type == 'LA_Investments':
-            object_to_update = FinanceInvestment
-            parse_row = parse_row_invest
-        elif type == 'LA_Borrowing':
-            object_to_update = FinanceBorrowing
-            parse_row = parse_row_borrow
+    
+    LA_Investments_csv = [csvFile for type, csvFile in unclean_CSVs if type == 'LA_Investments']
+    for unclean_csv in LA_Investments_csv:
+        unclean_df_chunk = pd.read_csv(unclean_csv, chunksize=5000)
 
         chunk_index = 1
         for chunk in unclean_df_chunk:
@@ -270,11 +268,31 @@ def clean_files(gov_finance_helper: FinancesUtil):
             data_list = []  # Reset for new chunk
             # taking advantage of mutable objects
             finance_df.apply(
-                lambda row: parse_row(row, data_list),  # type: ignore
+                lambda row: parse_row_invest(row, data_list),  # type: ignore
                 axis=1
             )
 
-            object_to_update.objects.bulk_create(data_list)
+            FinanceInvestment.objects.bulk_create(data_list)
+            print(f' Created DF chunk {chunk_index}')
+            chunk_index += 1
+
+
+    LA_Borrowing_csv = [csvFile for type, csvFile in unclean_CSVs if type == 'LA_Borrowing']
+    for unclean_csv in LA_Borrowing_csv:
+        unclean_df_chunk = pd.read_csv(unclean_csv,  chunksize=5000)
+
+        chunk_index = 1
+        for chunk in unclean_df_chunk:
+            finance_df = pd.concat([chunk], ignore_index=True)
+
+            data_list = []  # Reset for new chunk
+            # taking advantage of mutable objects
+            finance_df.apply(
+                lambda row: parse_row_borrow(row, data_list),  # type: ignore
+                axis=1
+            )
+
+            FinanceBorrowing.objects.bulk_create(data_list)
             print(f' Created DF chunk {chunk_index}')
             chunk_index += 1
 
