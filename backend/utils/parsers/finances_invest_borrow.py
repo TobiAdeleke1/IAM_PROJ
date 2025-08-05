@@ -141,7 +141,6 @@ def update_invalid(val):
 
 
 def parse_row_invest(row, data_list):
-    print("Invest row", row)
     finance_investment = FinanceInvestment(
         local_government_finance_code=row['lgf_code'],
         local_authority_name=row['local_authority_name'],
@@ -178,7 +177,6 @@ def parse_row_invest(row, data_list):
 
 
 def parse_row_borrow(row, data_list):
-    print("Borrow row", row)
     finance_borrowing = FinanceBorrowing(
         local_government_finance_code=row['lgf_code'],
         local_authority_name=row['local_authority_name'],
