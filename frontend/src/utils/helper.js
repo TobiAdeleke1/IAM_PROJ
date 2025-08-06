@@ -137,3 +137,35 @@ export const planningapplicationAnalytics = async (planningapplicationData) =>{
 
    }
 };
+
+export const quarterlyrevenueAnalytics = async ( quarterlyrevenueData ) =>{
+  const health_total = quarterlyrevenueData
+                        .map(({health_total}) => health_total)
+                        .reduce((currSum, currValue)=> currSum+=currValue , 0);
+  const education_total = quarterlyrevenueData
+                        .map(({education_total}) => education_total)
+                        .reduce((currSum, currValue)=> currSum+=currValue , 0);
+  const social_protection_total = quarterlyrevenueData
+                        .map(({social_protection_total}) => social_protection_total)
+                        .reduce((currSum, currValue)=> currSum+=currValue , 0);
+  const housing_and_community_amenities_total = quarterlyrevenueData
+                        .map(({housing_and_community_amenities_total}) => housing_and_community_amenities_total)
+                        .reduce((currSum, currValue)=> currSum+=currValue , 0);
+  const economic_affairs_total = quarterlyrevenueData
+                        .map(({economic_affairs_total}) => economic_affairs_total)
+                        .reduce((currSum, currValue)=> currSum+=currValue , 0);
+  const public_order_and_safety_total = quarterlyrevenueData
+                        .map(({public_order_and_safety_total}) => public_order_and_safety_total)
+                        .reduce((currSum, currValue)=> currSum+=currValue , 0);
+  
+  return [
+    {id: 0, value: health_total, label:'Health total'},
+    {id: 1, value: education_total, label:'Education total'},
+    {id: 2, value: social_protection_total, label:'Social protection_total'},
+    {id: 3, value: housing_and_community_amenities_total, label:'housing and community amenities total'},
+    {id: 4, value: economic_affairs_total, label:'Economic affairs total'},
+    {id: 5, value: public_order_and_safety_total, label:'Public order and safety total'},
+
+  ]
+  
+};
