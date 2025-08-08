@@ -1,0 +1,11 @@
+PRICE_PAID:
+  - "http://prod.publicdata.landregistry.gov.uk.s3-website-eu-west-1.amazonaws.com/pp-2024.csv"
+  - "http://prod.publicdata.landregistry.gov.uk.s3-website-eu-west-1.amazonaws.com/pp-2023.csv"
+PRICE_PAID_COLUMN_REF: "https://www.gov.uk/guidance/about-the-price-paid-data"
+OS_OPEN_NAMES: "https://api.os.uk/downloads/v1/products/OpenNames/downloads?area=GB&format=CSV&redirect"
+PLANNING_APPLICATION_STATISTICS: 
+  - "https://assets.publishing.service.gov.uk/media/678516c4f029f40e508816f4/PS2_data_-_open_data_table__202409_.csv"
+LOCAL_GOVERNMENT_FINANCES: 
+   INVESTMENT_BORROWING: "https://assets.publishing.service.gov.uk/media/67b60da94e79a175a4c2ff50/Q3_2024_25_Borrowing_and_Investment_Live_Table_Q3_2024_2025.ods"
+   QUARTERLY_REVENUES: "https://assets.publishing.service.gov.uk/media/6750274cb9847955e1632a11/QRU2_2024_25.ods"
+RENT_LETTING_TENANCIES: ""
